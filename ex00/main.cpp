@@ -8,8 +8,7 @@ int main(int argc, char*argv[])
 		return(1);
 	}
 
-	ScalarConverter a(argv[1]);
-	a.convert();
+	ScalarConverter::convert(argv[1]);
 
 }
 

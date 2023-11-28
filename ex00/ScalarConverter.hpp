@@ -6,20 +6,16 @@
 class ScalarConverter
 {
 private:
-	char *value;
-public:
 	ScalarConverter();
-	ScalarConverter(char *input);
-	ScalarConverter(ScalarConverter &src);
+public:
 	~ScalarConverter();
 
-	void convert();
-	void toChar(double input);
-	void toInt(double input);
-	void toDouble(double input);
-	void toFloat(double input);
+	static void convert(char *value);
+	static void toChar(double input);
+	static void toInt(double input);
+	static void toDouble(double input);
+	static void toFloat(double input);
 
-	ScalarConverter &operator=(ScalarConverter const &src);
 };
 
 #endif //CPP06_SCALARCONVERTER_HPP

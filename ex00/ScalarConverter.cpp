@@ -9,37 +9,26 @@
 #include <limits>
 #include "ScalarConverter.hpp"
 
-ScalarConverter::ScalarConverter() : value((char *)"nan")
-{}
-
-ScalarConverter::ScalarConverter(char *input) : value(input)
-{}
-
-ScalarConverter::ScalarConverter(ScalarConverter &src) : value(src.value)
+ScalarConverter::ScalarConverter()
 {}
 
 ScalarConverter::~ScalarConverter()
 {}
 
-ScalarConverter &ScalarConverter::operator=(ScalarConverter const &src) {
-	this->value = src.value;
-	return *this;
-}
-
-void ScalarConverter::convert() {
+void ScalarConverter::convert(char *value) {
 	double Double;
 	bool numOnly = true;
 	int dotAmount = 0;
 	int minusAmount = 0;
 
-	for (int i = 0; i < (int)strlen(this->value); ++i) {
-		if (std::isdigit(this->value[i]) == false) {
-			if (this->value[i] == '.') {
+	for (int i = 0; i < (int)strlen(value); ++i) {
+		if (std::isdigit(value[i]) == false) {
+			if (value[i] == '.') {
 				dotAmount++;
 				if (dotAmount > 1)
 					numOnly = false;
 			}
-			if (this->value[i] == '-') {
+			if (value[i] == '-') {
 				minusAmount++;
 				if (minusAmount > 1)
 					numOnly = false;
@@ -50,13 +39,13 @@ void ScalarConverter::convert() {
 		}
 	}
 
-	if (strlen(this->value) > 1 && numOnly == false)
+	if (strlen(value) > 1 && numOnly == false)
 		std::cout << "WARNING: multi char sequence input, strings lead to undefined behaviour, if you input nan or inf inputs, disregard this warning!" << std::endl;
-	if (strlen(this->value) == 1 && std::isdigit(this->value[0]) == false) {
-		Double = static_cast<double>(this->value[0]);
+	if (strlen(value) == 1 && std::isdigit(value[0]) == false) {
+		Double = static_cast<double>(value[0]);
 	}
 	else
-		Double = strtod(&this->value[0], NULL);
+		Double = strtod(&value[0], NULL);
 
 	toChar(Double);
 	toInt(Double);
@@ -67,9 +56,9 @@ void ScalarConverter::convert() {
 void ScalarConverter::toChar(double input) {
 	char output;
 
-	if (std::isnan(input) || std::isinf(input) || std::numeric_limits<int>::max() || std::numeric_limits<int>::min())
+	if (std::isnan(input) || std::isinf(input) || input > std::numeric_limits<int>::max() || input < std::numeric_limits<int>::min())
 		std::cout << "char: impossible" << std::endl;
-	else if (isprint((int)input)){
+	else if (( input >= 7 && input <= 13 ) || ( input >= ' ' && input < 127 )){
 		output = static_cast<char>(input);
 		std::cout << "char: '" << output << "'" << std::endl;
 	}
