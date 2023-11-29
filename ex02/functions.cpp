@@ -1,12 +1,13 @@
 #include "A.hpp"
 #include "B.hpp"
 #include "C.hpp"
-#include "B.hpp"
+#include "functions.hpp"
+#include <exception>
 #include <iostream>
 #include <string>
 #include <ctime>
 #include <cstdlib>
-#include <typeinfo>
+
 
 Base * generate() {
 	Base *output;
@@ -56,19 +57,19 @@ void identify(Base& p){
 		std::cout << "this reference is of type A" << std::endl;
 		(void)a;
 	}
-	catch (std::bad_cast &e) {
+	catch (std::exception &e) {
 		try {
 			B& b = dynamic_cast<B&>(p);
 			std::cout << "this reference is of type B" << std::endl;
 			(void)b;
 		}
-		catch (std::bad_cast &e){
+		catch (std::exception &e){
 			try {
 				C& c = dynamic_cast<C&>(p);
 				std::cout << "this reference is of type C" << std::endl;
 				(void)c;
 			}
-			catch (std::bad_cast &e) {
+			catch (std::exception &e) {
 				std::cout << "this reference is of no valid type" << std::endl;
 			}
 		}
